@@ -2,12 +2,12 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useStage, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { signIn, signOut, useSession, 
 getProviders } from 'next-auth/react';
 
 const Nav = () => {
-    const isUserLoggedIn = false;
+    const isUserLoggedIn = true;
 
     const  [ providers, setProviders ] = useState(null);
 
@@ -53,7 +53,7 @@ const Nav = () => {
                             src="/assets prompts/images/logo.svg"
                             width={37}
                             height={37}
-                            className="round-full"
+                            className="rounded-full"
                             alt="profile"
                         />
                     </Link>
@@ -71,14 +71,46 @@ const Nav = () => {
                          }}
                          className="black_btn"
                          >
-                            Sign in
+                            Sign In
                          </button>
 
                         ) )}
                 </>
-            )
-            
-            }
+            )}
+        </div>
+        {/* Mobile Navigation */ }
+        <div className="sm:hidden flex relative">
+            {isUserLoggedIn ? (
+                <div className="flex">
+                    <Image
+                        src="/assets prompts/images/logo.svg"
+                        width={37}
+                        height={37}
+                        className="round-full"
+                        alt="profile"
+                        onClick={() => {}}
+                    />
+                </div>
+
+            ): (
+                <>
+                {providers &&
+                    Object.values(providers).map((provider) => (
+                     <button 
+                     type="button"
+                     key={provider.name}
+                     onClick={() => {
+                        signIn(provider.id);
+                     }}
+                     className="black_btn"
+                     >
+                        Sign In
+                     </button>
+
+                    ) )}
+            </>
+
+            )}
         </div>
     </nav>
   )
